@@ -38,6 +38,7 @@ const gameBoard = (() => {
                 gameOver(who.name)
 
             }
+            draw()
             changePlayers();
 
         }
@@ -56,20 +57,17 @@ const gameBoard = (() => {
     //checking draw
     //SHOULD BE FIXED
     const draw = () => {
-        let end = true;
-        for(let i = 0; i < Array.from(cells).length;i++){
-            if(!cells[i].classList.contains('x' || 'o'))
-            end = false;
-        }
-        if(end){
+        if(Array.from(cells).every(cell => cell.classList.contains('x') ||
+         cell.classList.contains('o') ||
+          cell.textContent != "")){
             const draw = "It is a draw!";
             winningMsgTxt.textContent = draw;
             winningMsg.classList.add('show')
+        }
+        }
+
+
         
-        }
-
-
-        }
     
     
     //changing players
