@@ -150,9 +150,10 @@ main .container {
 }
 
 .winning-message-text {
-  font-size: 8rem;
+  font-size: 7rem;
   font-weight: 900;
   color: var(--secondary-font-color);
+  text-align: center;
 }
 
 .restart-button{

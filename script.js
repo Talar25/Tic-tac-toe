@@ -1,4 +1,7 @@
 const cells = document.querySelectorAll('[data-cell]')
+const winningMsgTxt = document.getElementById('winning-message-text')
+const winningMsg = document.getElementById('winning-message')
+const resetBtn = document.getElementById('restart-button')
 const winningCondition = [
     [0, 1, 2],
     [3, 4, 5],
@@ -31,16 +34,42 @@ const gameBoard = (() => {
             const cell = e.target;
             cell.textContent = mark;
             cell.classList.add(mark);
-            console.log(win(mark))
+            if(win(mark)){
+                gameOver(who.name)
+
+            }
             changePlayers();
 
         }
     //checking win
         const win = (mark) => {
+            for(let i = 0; i < winningCondition.length; i++) {
+                const [a, b, c] = winningCondition[i];
+                if(
+                    cells[a].classList.contains(mark) && cells[b].classList.contains(mark) && cells[c].classList.contains(mark)
+                ) return true;
+                
+            }
 
         }
     
     //checking draw
+    //SHOULD BE FIXED
+    const draw = () => {
+        let end = true;
+        for(let i = 0; i < Array.from(cells).length;i++){
+            if(!cells[i].classList.contains('x' || 'o'))
+            end = false;
+        }
+        if(end){
+            const draw = "It is a draw!";
+            winningMsgTxt.textContent = draw;
+            winningMsg.classList.add('show')
+        
+        }
+
+
+        }
     
     
     //changing players
@@ -50,13 +79,35 @@ const gameBoard = (() => {
         }else who = player1;
         mark = who.mark;
     } 
+
+    //game over
+    const gameOver = (who) => {
+        const winner = `${who} wins the game`;
+        winningMsgTxt.textContent = winner;
+        winningMsg.classList.add('show')    
+    }
+
+    const reset = () => {
+        cells.forEach(cell => {
+            cell.classList.remove('x', 'o');
+            cell.textContent = ''
+        })
+        winningMsg.classList.remove('show')
+        who = player1;
+        mark = who.mark
+
+        cells.forEach((cell,index) => cell.addEventListener('click', gameBoard.play, {once: true}))
+    }
+
+
     return {
-        play
+        play,
+        reset
     }
     })();   
 
 cells.forEach((cell,index) => cell.addEventListener('click', gameBoard.play, {once: true}))
-
+resetBtn.addEventListener('click', gameBoard.reset)
 
 
 
