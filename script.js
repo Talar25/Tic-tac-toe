@@ -37,8 +37,10 @@ const gameBoard = (() => {
             if(win(mark)){
                 gameOver(who.name)
 
+            }else {
+                draw()
             }
-            draw()
+
             changePlayers();
 
         }
